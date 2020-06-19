@@ -56,15 +56,22 @@ class Jobcontroller extends Controller
 
     public function edit($id)
     {
-        $id = 66;
         $job = Job::findOrFail($id);
-       
+
         return view('jobs.edit', compact('job'));
     }
- 
+
 
     public function create()
     {
         return view('jobs.create');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $job = Job::findOrFail($id);
+        $job->update($request->all());
+
+        return redirect()->back()->with('message', 'Job successfully updated');
     }
 }

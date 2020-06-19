@@ -12,7 +12,7 @@
                         {{ Session::get('message') }}
                     </div>
                     @endif
-                    <form action="{{ route('job.store') }}" method="POST">
+                    <form action="{{ route('job.update', [$job->id]) }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="Title">Title: </label>
@@ -27,30 +27,28 @@
                         <div class="form-group">
                             <label for="description">Description: </label>
                             <textarea name="description" id="" cols="20" rows="5"
-                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ old('description') }}"></textarea>
+                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}">{{ $job->description }}</textarea>
                             @if($errors->has('description'))
-                            <span class="error" style="color: red;">{{ $errors->first('title') }}</span>
+                            <span class="error" style="color: red;">{{ $errors->first('description') }}</span>
                             @endif
                         </div>
 
                         <div class="form-group">
                             <label for="roles">Role: </label>
                             <textarea name="roles" id="" cols="20" rows="5"
-                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ old('roles') }}"></textarea>
+                                class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}">{{ $job->roles }}</textarea>
                             @if($errors->has('description'))
-                            <span class=" error" style="color: red;">{{ $errors->first('title') }}</span>
+                            <span class=" error" style="color: red;">{{ $errors->first('role') }}</span>
                             @endif
                         </div>
 
                         <div class="form-group">
                             <label for="category">Category: </label>
-                            <select name="category" id="" class="form-control">
+                            <select name="category_id" id="" class="form-control">
                                 @foreach(App\Category::all() as $cat)
-                                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                <option value="{{ $cat->id }}" {{ $cat->id == $job->category_id ? 'selected' : '' }}>
+                                    {{ $cat->name }}</option>
                                 @endforeach
-
                             </select>
                         </div>
 
@@ -59,9 +57,9 @@
                             <label for="position">Position: </label>
                             <input type="text" name="position"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ old('position') }}">
+                                value="{{ $job->position }}">
                             @if($errors->has('description'))
-                            <span class=" error" style="color: red;">{{ $errors->first('title') }}</span>
+                            <span class=" error" style="color: red;">{{ $errors->first('position') }}</span>
                             @endif
                         </div>
 
@@ -69,7 +67,7 @@
                             <label for="address">Address: </label>
                             <input type="text" name="address"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ old('address') }}">
+                                value="{{ $job->address }}">
                             @if($errors->has('description'))
                             <span class=" error" style="color: red;">{{ $errors->first('title') }}</span>
                             @endif
@@ -78,25 +76,27 @@
                         <div class="form-group">
                             <label for="position">Type: </label>
                             <select name="type" class="form-control">
-                                <option value="fulltime">Fulltime</option>
-                                <option value="parttime">Parttime</option>
-                                <option value="casual">Casual</option>
+                                <option value="fulltime" {{ $job->type == 'fulltime' ? 'selected' : '' }}>Fulltime
+                                </option>
+                                <option value="parttime" {{ $job->type == 'parttime' ? 'selected' : '' }}>Parttime
+                                </option>
+                                <option value="casual" {{ $job->type == 'casual' ? 'selected' : '' }}>Casual</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="status">Status: </label>
                             <select name="status" class="form-control">
-                                <option value="1">Live</option>
-                                <option value="0">Draft</option>
+                                <option value="1" {{ $job->status == '1' ? 'selected' : '' }}>Live</option>
+                                <option value="0" {{ $job->status == '0' ? 'selected' : '' }}>Draft</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="position">Last date: </label>
-                            <input type="date" name="last_date"
+                            <input type="text" name="last_date" id="datepicker"
                                 class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}"
-                                value="{{ old('last_date') }}">
+                                value="{{ $job->last_date }}">
                             @if($errors->has('description'))
                             <span class=" error" style="color: red;">{{ $errors->first('title') }}</span>
                             @endif
