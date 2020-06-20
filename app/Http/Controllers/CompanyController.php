@@ -8,6 +8,12 @@ use App\Job;
 
 class CompanyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('employer', ['except' => array('index')]);
+    }
+
     public function index($id, Company $company)
     {
 
@@ -54,7 +60,8 @@ class CompanyController extends Controller
     }
 
 
-    public function companyLogo(Request $request) {
+    public function companyLogo(Request $request)
+    {
         $user_id = auth()->user()->id;
 
         if ($request->hasfile('company_logo')) {
@@ -70,5 +77,4 @@ class CompanyController extends Controller
 
         return redirect()->back()->with('message', 'Logo Successfully Updated!');
     }
-
 }
