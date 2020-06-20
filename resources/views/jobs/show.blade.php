@@ -23,7 +23,9 @@
             <div class="card">
                 <div class="card-header">Short Info</div>
                 <div class="card-body">
-                    <p>Company: <a href="{{ route('company.index', [$job->company->id, $job->company->slug]) }}">{{ $job->company->cname }}</a> </p>
+                    <p>Company: <a
+                            href="{{ route('company.index', [$job->company->id, $job->company->slug]) }}">{{ $job->company->cname }}</a>
+                    </p>
                     <p>Address: {{ $job->address }}</p>
                     <p>Employment Type: {{ $job->type }}</p>
                     <p>Position: {{ $job->position }}</p>
@@ -32,7 +34,17 @@
             </div>
 
             @if(Auth::check() && Auth::user()->user_type='seeker')
-            <button class="btn btn-success mt-2" style="width:100%">Apply</button>
+                @if(!$job->checkApplication())
+                <form action="{{ route('apply', [$job->id]) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success mt-2" style="width:100%">Apply</button>
+                </form>
+                @endif
+                @if(Session::has('message'))
+                <div class="alert alert-success mt-1">
+                    {{ Session::get('message') }}
+                </div>
+                @endif
             @endif
         </div>
 

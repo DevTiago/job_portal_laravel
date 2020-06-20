@@ -67,7 +67,6 @@
                         </li>
                         @endif
                         @else
-
                         <li>
                             <a href="{{ route('job.create') }}"><button class="btn btn-info text-white">Post a
                                     job</button></a>
