@@ -35,7 +35,7 @@ class Jobcontroller extends Controller
 
         $company = Company::where('user_id', $user_id)->first();
         $company_id = $company->id;
-
+        
         Job::create([
             'user_id' => $user_id,
             'company_id' => $company_id,
@@ -51,6 +51,8 @@ class Jobcontroller extends Controller
             'last_date' => request('last_date')
         ]);
 
+
+        
         return redirect()->back()->with('message', 'Job posted successfully');
     }
 
@@ -88,5 +90,14 @@ class Jobcontroller extends Controller
         $jobId->users()->attach(Auth::user()->id);
 
         return redirect()->back()->with('message', 'Application sent!');
+    }
+
+    public function applicant()
+    {
+        // $applicants = Job::has('users')->where('user_id', auth()->user()->id)->get();
+
+        $applicants = Job::has('users')->where('user_id', auth()->user()->id)->get();
+
+        return view('jobs.applicants', compact('applicants'));
     }
 }
