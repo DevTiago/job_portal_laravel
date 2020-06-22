@@ -35,17 +35,16 @@
             </div>
 
             @if(Auth::check() && Auth::user()->user_type='seeker')
-                @if(!$job->checkApplication())
-                <form action="{{ route('apply', [$job->id]) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-success mt-2" style="width:100%">Apply</button>
-                </form>
-                @endif
-                @if(Session::has('message'))
-                <div class="alert alert-success mt-1">
-                    {{ Session::get('message') }}
-                </div>
-                @endif
+            @if(!$job->checkApplication())
+            <apply-component jobid={{ $job->id }}></apply-component>
+            @else
+            <div class="alert alert-success mt-2 text-center">You already applied for this job</div>
+            @endif
+            @if(Session::has('message'))
+            <div class="alert alert-success mt-1">
+                {{ Session::get('message') }}
+            </div>
+            @endif
             @endif
         </div>
 
