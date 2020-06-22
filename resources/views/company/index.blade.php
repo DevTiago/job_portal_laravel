@@ -14,7 +14,7 @@
 
 
                 @if(empty(Auth::user()->company->logo))
-                <img src="{{ asset('avatar/avatar.png') }}" width="100" style="width: 100%">
+                <img src="{{ asset('avatar/avatar.png') }}" width="100" style="width: 50%">
                 @else
                 <img src="{{ asset('uploads/logo')}}/{{ Auth::user()->company->logo }}" width="100">
                 @endif

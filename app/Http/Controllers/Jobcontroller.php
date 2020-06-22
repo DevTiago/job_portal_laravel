@@ -13,14 +13,15 @@ class Jobcontroller extends Controller
 
     public function __construct()
     {
-        $this->middleware('employer', ['except' => array('index', 'show', 'apply')]);
+        $this->middleware('employer', ['except' => array('index', 'show', 'apply', 'alljobs')]);
     }
 
     public function index()
     {
-        $jobs = Job::all();
+        $jobs = Job::latest()->limit(10)->where('status', 1)->get();
+        $companies = Company::get()->random(12);
 
-        return view('welcome', compact('jobs'));
+        return view('welcome', compact('jobs', 'companies'));
     }
 
 
@@ -35,7 +36,7 @@ class Jobcontroller extends Controller
 
         $company = Company::where('user_id', $user_id)->first();
         $company_id = $company->id;
-        
+
         Job::create([
             'user_id' => $user_id,
             'company_id' => $company_id,
@@ -52,7 +53,7 @@ class Jobcontroller extends Controller
         ]);
 
 
-        
+
         return redirect()->back()->with('message', 'Job posted successfully');
     }
 
@@ -99,5 +100,28 @@ class Jobcontroller extends Controller
         $applicants = Job::has('users')->where('user_id', auth()->user()->id)->get();
 
         return view('jobs.applicants', compact('applicants'));
+    }
+
+    public function allJobs(Request $request)
+    {
+        $position = request('position');
+        $type = request('type');
+        $category = request('category_id');
+        $address = request('address');
+
+        if ($position || $type ||  $category || $address) {
+            $jobs = Job::where('position', 'LIKE', '%' . $position . '%')
+                ->orWhere('type', $type)
+                ->orWhere('category_id', $category)
+                ->orWhere('address', $address)
+                ->paginate(10);
+                
+                return view('jobs.alljobs', compact('jobs'));
+
+        } else {
+            $jobs = Job::latest()->paginate(10);
+        }
+
+        return view('jobs.alljobs', compact('jobs'));
     }
 }

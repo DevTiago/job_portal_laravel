@@ -33,7 +33,7 @@ Route::post('/jobs/{id}/edit', 'JobController@update')->name('job.update');
 Route::get('jobs/listjobs', 'JobController@listJobs')->name('job.listjobs');
 
 Route::get('jobs/applications', 'JobController@applicant');
-
+Route::get('jobs/alljobs', 'JobController@alljobs')->name('allJobs');
 
 //Company route
 Route::get('company/{id}/{company}', 'CompanyController@index')->name('company.index');

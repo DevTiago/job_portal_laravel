@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <form action="{{ route('alljobs') }}"></form>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Create a new Job</div>

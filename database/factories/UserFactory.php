@@ -36,8 +36,8 @@ $factory->define(App\Company::class, function (Faker $faker) {
         'address' => $faker->address,
         'phone' => $faker->phoneNumber,
         'website' => $faker->domainName,
-        'logo' => 'avatar/avatar.png',
-        'cover_photo' => 'cover/banner.jpg',
+        'logo' => 'avatar.png',
+        'cover_photo' => 'banner.jpg',
         'slogan' => 'learn and grow',
         'description' => $faker->paragraph(rand(2,10))
     ]; 

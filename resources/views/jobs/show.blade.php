@@ -29,7 +29,8 @@
                     <p>Address: {{ $job->address }}</p>
                     <p>Employment Type: {{ $job->type }}</p>
                     <p>Position: {{ $job->position }}</p>
-                    <p>Date: {{ $job->created_at->diffForHumans() }} </p>
+                    <p>Posted: {{ $job->created_at->diffForHumans() }} </p>
+                    <p>Laste date fo apply:{{ date('F d Y', strtotime($job->last_date)) }}</p>
                 </div>
             </div>
 
